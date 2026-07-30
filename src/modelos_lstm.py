@@ -7,7 +7,9 @@ import torch
 import torch.nn as nn
 from sklearn.preprocessing import MinMaxScaler
 
-from PreparacionDatos import ObtenerConjuntos
+import sys, os
+sys.path.insert(0, os.path.dirname(__file__))
+from preparacion_datos import ObtenerConjuntos  # noqa: E402
 
 SEMILLA = 42
 EPOCAS = 500
@@ -92,11 +94,14 @@ def Tunear(train):
 
 
 def main():
-    os.makedirs('results', exist_ok=True)
+    ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    RESULTS = os.path.join(ROOT, 'results')
+    DATA_CSV = os.path.join(ROOT, 'data', 'series_de_tiempo_completas.csv')
+    os.makedirs(RESULTS, exist_ok=True)
     np.random.seed(SEMILLA)
 
     tablas = []
-    for nombre, (train, _) in ObtenerConjuntos().items():
+    for nombre, (train, _) in ObtenerConjuntos(DATA_CSV).items():
         tabla = Tunear(train)
         tabla.insert(0, 'Serie', nombre)
         tablas.append(tabla)
@@ -104,10 +109,10 @@ def main():
         print(tabla.sort_values('ValRmse').to_string(index=False))
 
     tuneo = pd.concat(tablas, ignore_index=True)
-    tuneo.to_csv('results/TuneoLstm.csv', index=False)
+    tuneo.to_csv(os.path.join(RESULTS, 'TuneoLstm.csv'), index=False)
 
     mejores = tuneo.loc[tuneo.groupby(['Serie', 'Configuracion'])['ValRmse'].idxmin()]
-    mejores.to_csv('results/MejoresLstm.csv', index=False)
+    mejores.to_csv(os.path.join(RESULTS, 'MejoresLstm.csv'), index=False)
     print('\nMejor modelo por configuracion')
     print(mejores.to_string(index=False))
 

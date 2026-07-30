@@ -1,4 +1,5 @@
 import os
+import sys
 import itertools
 import numpy as np
 import pandas as pd
@@ -8,6 +9,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
+
+# Rutas relativas a la raiz del repositorio
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+_DATA_DIR    = os.path.join(_ROOT, 'data')
+_RESULTS_DIR = os.path.join(_ROOT, 'results')
 
 # Configuración global
 SEMILLA = 42
@@ -45,7 +51,9 @@ class RedLstm(nn.Module):
         h, _ = self.lstm(x)
         return self.salida(h[:, -1])
 
-def cargar_series(ruta='data/series_de_tiempo_completas.csv'):
+def cargar_series(ruta=None):
+    if ruta is None:
+        ruta = os.path.join(_DATA_DIR, 'series_de_tiempo_completas.csv')
     return pd.read_csv(ruta, index_col='Fecha', parse_dates=True).asfreq('MS')
 
 def fecha_corte(df):
@@ -146,7 +154,7 @@ def predecir_test(train, test, p, autoregresivo=True):
     return preds
 
 def main():
-    os.makedirs('results', exist_ok=True)
+    os.makedirs(_RESULTS_DIR, exist_ok=True)
     np.random.seed(SEMILLA)
     
     conjuntos = obtener_conjuntos()
@@ -161,11 +169,11 @@ def main():
         print(tabla.sort_values('ValRmse').to_string(index=False))
 
     tuneo_df = pd.concat(tablas_tuneo, ignore_index=True)
-    tuneo_df.to_csv('results/TuneoLstm.csv', index=False)
+    tuneo_df.to_csv(os.path.join(_RESULTS_DIR, 'TuneoLstm.csv'), index=False)
 
     # Seleccionar el mejor hiperparámetro por serie
     mejores_modelos = tuneo_df.loc[tuneo_df.groupby('Serie')['ValRmse'].idxmin()]
-    mejores_modelos.to_csv('results/MejoresLstm.csv', index=False)
+    mejores_modelos.to_csv(os.path.join(_RESULTS_DIR, 'MejoresLstm.csv'), index=False)
     print('\n=== MEJORES MODELOS SELECCIONADOS POR VALIDACIÓN ===')
     print(mejores_modelos.to_string(index=False))
     
@@ -226,15 +234,15 @@ def main():
             'Pred_Autoregresivo': preds_ar,
             'Pred_OneStep': preds_os
         })
-        df_preds.to_csv(f'results/predicciones_{serie.lower()}.csv', index=False)
+        df_preds.to_csv(os.path.join(_RESULTS_DIR, f'predicciones_{serie.lower()}.csv'), index=False)
         print(f'  -> Guardado results/predicciones_{serie.lower()}.csv ({len(df_preds)} filas)')
         
     plt.tight_layout()
-    plt.savefig('results/predicciones_lstm.png', dpi=300)
+    plt.savefig(os.path.join(_RESULTS_DIR, 'predicciones_lstm.png'), dpi=300)
     plt.close()
     
     df_res_test = pd.DataFrame(resultados_test)
-    df_res_test.to_csv('results/ResultadosTestLSTM.csv', index=False)
+    df_res_test.to_csv(os.path.join(_RESULTS_DIR, 'ResultadosTestLSTM.csv'), index=False)
     print('\nResultados Finales en Test:')
     print(df_res_test.to_string(index=False))
 
