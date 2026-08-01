@@ -1,0 +1,3 @@
+Serie,Configuracion,Ventana,Unidades,LR,Test_MAE_Autoregresivo,Test_RMSE_Autoregresivo,Test_MAE_OneStep,Test_RMSE_OneStep
+Total_Consistent,LstmSimple,12,32,0.01,168761.64,182469.15,44655.19,59698.34
+Via_Aerea,LstmSimple,24,64,0.01,23859.3,31803.33,12843.68,17035.82

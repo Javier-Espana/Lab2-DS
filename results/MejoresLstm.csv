@@ -1,5 +1,3 @@
 Serie,Configuracion,capas,dropout,ventana,unidades,lr,PerdidaEntrenamiento,ValMae,ValRmse
-Total_Consistent,LstmApilado,2,0.2,12,32,0.01,0.007949,156344.36,201140.27
-Total_Consistent,LstmSimple,1,0.0,24,64,0.01,0.006689,113192.0,157862.4
-Via_Aerea,LstmApilado,2,0.2,12,32,0.01,0.004124,38749.23,53902.21
-Via_Aerea,LstmSimple,1,0.0,12,64,0.01,0.000673,33728.11,48511.36
+Total_Consistent,LstmSimple,1,0.0,12,32,0.01,0.010342,130911.21,170725.36
+Via_Aerea,LstmSimple,1,0.0,24,64,0.01,0.000373,29125.75,44554.84

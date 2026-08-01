@@ -1,0 +1,3 @@
+Serie,Modelo,Ventana,Unidades,LR,Test_MAE_Multistep,Test_RMSE_Multistep,Test_MAE_OneStep,Test_RMSE_OneStep
+Total_Consistent,Catch22-LSTM,12,32,0.01,162259.67,175856.54,52154.26,73180.4
+Via_Aerea,Catch22-LSTM,24,64,0.01,34363.77,43345.42,14551.41,19683.03
