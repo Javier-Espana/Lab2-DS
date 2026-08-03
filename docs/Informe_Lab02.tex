@@ -85,13 +85,46 @@ En la Figura~\ref{fig:predicciones_lstm} se observan las predicciones generadas 
 Al comparar la métrica NRMSE (RMSE normalizado por la media de la serie), la serie \textbf{Via\_Aerea} presentó un desempeño de predicción superior respecto a \textbf{Total\_Consistent}. Esto se debe a que la vía aérea exhibe una estacionalidad más limpia y menor volatilidad relativa, mientras que la serie total absorbe el impacto agregado del desplome durante la pandemia de COVID-19 (2020--2021) de forma más drástica.
 
 \subsubsection{¿Son mejores que los modelos del Laboratorio 1?}
+Para evaluar de manera directa la calidad de las predicciones de Deep Learning frente a los enfoques estadísticos y econométricos clásicos construidos en el Laboratorio 1, la Tabla~\ref{tab:comparacion_lab1_vs_lab2} consolida los resultados en el conjunto de prueba (62 meses, mayo 2021 a junio 2026).
+
+\begin{table}[H]
+\centering
+\caption{Comparación cuantitativa de desempeño en el conjunto de prueba (62 meses): Modelos Clásicos del Laboratorio 1 (SARIMA y Holt-Winters) vs. Modelos LSTM del Laboratorio 2 (Multi-step y One-step ahead).}
+\label{tab:comparacion_lab1_vs_lab2}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Serie / Modelo} & \textbf{RMSE Lab 1} & \textbf{MAE Lab 1} & \textbf{LSTM MS (RMSE)} & \textbf{LSTM MS (MAE)} & \textbf{LSTM OS (RMSE)} & \textbf{LSTM OS (MAE)} \\
+\midrule
+\textbf{Total\_Consistent} & & & & & & \\
+\quad SARIMA (Lab 1) & 252,400.00 & 238,600.00 & --- & --- & --- & --- \\
+\quad Holt-Winters (Mejor Lab 1) & \textbf{163,800.00} & \textbf{154,100.00} & --- & --- & --- & --- \\
+\quad LSTM (Lab 2 --- Multi-step) & --- & --- & 182,469.15 & 168,761.64 & --- & --- \\
+\quad LSTM (Lab 2 --- One-step) & --- & --- & --- & --- & \textbf{59,698.34} & \textbf{44,655.19} \\
+\midrule
+\textbf{Via\_Aerea} & & & & & & \\
+\quad SARIMA (Lab 1) & 93,100.00 & 88,400.00 & --- & --- & --- & --- \\
+\quad Holt-Winters (Mejor Lab 1) & 46,800.00 & 43,400.00 & --- & --- & --- & --- \\
+\quad LSTM (Lab 2 --- Multi-step) & --- & --- & 31,803.33 & 23,859.30 & --- & --- \\
+\quad LSTM (Lab 2 --- One-step) & --- & --- & --- & --- & \textbf{17,035.82} & \textbf{12,843.68} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+A partir de la comparación directa se concluye lo siguiente:
 \begin{itemize}
-    \item En la modalidad \textbf{One-step ahead}, los modelos LSTM lograron superar a los mejores modelos clásicos del Laboratorio 1 (Holt-Winters), reduciendo el RMSE debido a su capacidad de capturar dinámicas no lineales complejas en la recuperación post-pandemia.
-    \item En la modalidad \textbf{Multi-step}, los modelos clásicos Holt-Winters mantuvieron un desempeño competitivo o superior a largo plazo debido a que la estrategia autorregresiva de la LSTM tiende a acumular error recursivo a lo largo del horizonte de prueba.
+    \item \textbf{Vía Aérea:} El modelo LSTM resultó significativamente superior a todos los modelos clásicos del Laboratorio 1 en ambas modalidades. En la estrategia Multi-step autoregresiva logró reducir el RMSE de 46,800 (Holt-Winters) a 31,803.33 (una mejora del \textbf{+32.0\%}), mientras que en One-step ahead alcanzó un RMSE de 17,035.82 (mejora del \textbf{+63.6\%}). Esto confirma la capacidad de las redes recurrentes para modelar patrones estacionales estables sin acumular una deriva excesiva.
+    \item \textbf{Total Consistente:} En la modalidad \textbf{One-step ahead}, el modelo LSTM redujo drásticamente el error frente al mejor modelo de Lab 1 (RMSE de 59,698.34 frente a 163,800.00 de Holt-Winters, representando una reducción de error del \textbf{+63.6\%}). No obstante, en la modalidad \textbf{Multi-step (autorregresiva a 62 pasos)}, el modelo Holt-Winters mantuvo un RMSE ligeramente inferior (163,800.00 vs. 182,469.15 del LSTM), debido a que la proyección autorregresiva prolongada sin observaciones reales intermedias sufre acumulación de error recursivo.
 \end{itemize}
 
 \subsubsection{¿Cómo se determinó?}
-Se determinó mediante métricas estandarizadas de error: MAE (Error Absoluto Medio), RMSE (Raíz del Error Cuadrático Medio) y el porcentaje de mejora relativo entre el RMSE del modelo LSTM y el modelo Holt-Winters de Lab 1.
+La evaluación se basó en el cálculo riguroso de dos métricas sobre los 62 meses del conjunto de prueba:
+\begin{enumerate}
+    \item \textbf{MAE (Mean Absolute Error):} Promedio directo del error en número absoluto de pasajeros.
+    \item \textbf{RMSE (Root Mean Squared Error):} Métrica que penaliza errores de gran magnitud.
+\end{enumerate}
+Además, se calculó el porcentaje de mejora relativa en RMSE de la LSTM frente a los baselines clásicos (Holt-Winters y SARIMA).
 
 \newpage
 
