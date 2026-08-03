@@ -3,6 +3,7 @@
 \usepackage[spanish]{babel}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{graphicx}
+\graphicspath{{../results/}}
 \usepackage{booktabs}
 \usepackage{geometry}
 \usepackage{hyperref}
@@ -73,7 +74,7 @@ En la Figura~\ref{fig:predicciones_lstm} se observan las predicciones generadas 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{results/predicciones_lstm.png}
+    \includegraphics[width=0.95\textwidth]{predicciones_lstm.png}
     \caption{Predicciones del modelo LSTM sobre el conjunto de prueba para las series \texttt{Total\_Consistent} y \texttt{Via\_Aerea}.}
     \label{fig:predicciones_lstm}
 \end{figure}
@@ -125,35 +126,35 @@ Sobre la matriz estandarizada se ejecutaron cinco análisis clave cuyos resultad
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{results/Catch22Pca.png}
+    \includegraphics[width=0.75\textwidth]{Catch22Pca.png}
     \caption{Dispersión de las 7 series temporales en el plano de los dos primeros componentes principales (PC1 y PC2).}
     \label{fig:pca}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{results/Catch22Dendrograma.png}
+    \includegraphics[width=0.85\textwidth]{Catch22Dendrograma.png}
     \caption{Dendrograma de clustering jerárquico usando el método de enlace de Ward sobre las características de catch22.}
     \label{fig:dendrograma}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{results/Catch22Heatmap.png}
+    \includegraphics[width=0.95\textwidth]{Catch22Heatmap.png}
     \caption{Mapa de calor con las 22 características de catch22 estandarizadas para cada una de las 7 series.}
     \label{fig:heatmap}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{results/Catch22Correlaciones.png}
+    \includegraphics[width=0.8\textwidth]{Catch22Correlaciones.png}
     \caption{Matriz de correlaciones de Pearson entre las 22 características canónicas de catch22.}
     \label{fig:correlaciones}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{results/Catch22Distancias.png}
+    \includegraphics[width=0.75\textwidth]{Catch22Distancias.png}
     \caption{Mapa de distancias euclidianas par a par entre las series temporales estandarizadas.}
     \label{fig:distancias}
 \end{figure}
@@ -239,7 +240,7 @@ Se evaluó el desempeño en el conjunto de prueba para las series principales (\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{results/predicciones_catch22_lstm.png}
+    \includegraphics[width=0.95\textwidth]{predicciones_catch22_lstm.png}
     \caption{Predicciones del modelo híbrido Catch22-LSTM sobre el conjunto de prueba para las series \texttt{Total\_Consistent} y \texttt{Via\_Aerea}.}
     \label{fig:predicciones_catch22_lstm}
 \end{figure}
